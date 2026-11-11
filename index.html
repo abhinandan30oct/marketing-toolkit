@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Toolkit | UTM Builder</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #182230;
+}
+header {
+  background: #14213d;
+  color: white;
+  padding: 22px 8%;
+}
+header h1 { margin: 0; font-size: 25px; }
+header p { margin-bottom: 0; color: #cbd5e1; }
+main {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 0 18px;
+}
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px #17203310;
+}
+h2 { margin-top: 0; }
+label {
+  display: block;
+  margin: 18px 0 7px;
+  font-weight: bold;
+  font-size: 14px;
+}
+input, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d5dce7;
+  border-radius: 8px;
+  font-size: 15px;
+}
+button {
+  padding: 13px 20px;
+  background: #2563eb;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+}
+button:hover { background: #1d4ed8; }
+.result {
+  margin-top: 25px;
+  padding: 18px;
+  background: #eff6ff;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+  display: none;
+}
+#generatedUrl { line-height: 1.7; }
+.copy { background: #14213d; margin-left: 5px; }
+.message { color: #15803d; font-size: 14px; }
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Marketing Toolkit</h1>
+  <p>Free tools for digital marketers</p>
+</header>
+
+<main>
+  <div class="card">
+    <h2>UTM Campaign URL Builder</h2>
+    <p>Create tracking URLs for your marketing campaigns.</p>
+
+    <form id="utmForm">
+      <label for="website">Website URL *</label>
+      <input id="website" type="url"
+        placeholder="https://example.com" required>
+
+      <label for="source">Campaign Source *</label>
+      <select id="source" required>
+        <option value="">Select source</option>
+        <option value="google">Google</option>
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="tiktok">TikTok</option>
+        <option value="newsletter">Newsletter</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="medium">Campaign Medium *</label>
+      <select id="medium" required>
+        <option value="">Select medium</option>
+        <option value="cpc">CPC</option>
+        <option value="paid-social">Paid Social</option>
+        <option value="social">Social</option>
+        <option value="email">Email</option>
+        <option value="display">Display</option>
+        <option value="affiliate">Affiliate</option>
+        <option value="organic">Organic</option>
+      </select>
+
+      <label for="campaign">Campaign Name *</label>
+      <input id="campaign" type="text"
+        placeholder="summer_sale_2026" required>
+
+      <label for="term">Campaign Term (Optional)</label>
+      <input id="term" type="text"
+        placeholder="marketing keywords">
+
+      <label for="content">Campaign Content (Optional)</label>
+      <input id="content" type="text"
+        placeholder="banner_ad_01">
+
+      <button type="submit">Generate UTM URL</button>
+    </form>
+
+    <div class="result" id="result">
+      <h3>Your Tracking URL</h3>
+      <p id="generatedUrl"></p>
+      <button class="copy" id="copyButton" type="button">
+        Copy URL
+      </button>
+      <p class="message" id="message" aria-live="polite"></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Marketing Toolkit · Free & Open Source · MIT License
+</footer>
+
+<script>
+const form = document.getElementById("utmForm");
+const result = document.getElementById("result");
+const generatedUrl = document.getElementById("generatedUrl");
+const message = document.getElementById("message");
+let finalUrl = "";
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  try {
+    const url = new URL(
+      document.getElementById("website").value.trim()
+    );
+
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("Please use an HTTP or HTTPS website URL.");
+    }
+
+    const fields = {
+      utm_source: document.getElementById("source").value,
+      utm_medium: document.getElementById("medium").value,
+      utm_campaign: document.getElementById("campaign").value.trim(),
+      utm_term: document.getElementById("term").value.trim(),
+      utm_content: document.getElementById("content").value.trim()
+    };
+
+    Object.entries(fields).forEach(([key, value]) => {
+      if (value) url.searchParams.set(key, value);
+    });
+
+    finalUrl = url.toString();
+    generatedUrl.textContent = finalUrl;
+    result.style.display = "block";
+    message.textContent = "Your UTM URL is ready!";
+  } catch (error) {
+    alert(error.message || "Please enter a valid URL.");
+  }
+});
+
+document.getElementById("copyButton").addEventListener(
+  "click", async function() {
+    try {
+      await navigator.clipboard.writeText(finalUrl);
+      message.textContent = "URL copied successfully!";
+    } catch {
+      message.textContent =
+        "Copy unavailable. Please select and copy the URL manually.";
+    }
+  }
+);
+</script>
+
+</body>
+</html>
