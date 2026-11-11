@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Budget Planner</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#182230}
+header{background:#14213d;color:white;padding:22px 8%}
+header h1{margin:0}
+header p{color:#cbd5e1}
+nav{margin-top:15px}
+nav a{color:white;text-decoration:none;margin-right:20px;font-size:14px}
+main{max-width:950px;margin:35px auto;padding:0 18px}
+.card{background:white;padding:28px;border-radius:14px;box-shadow:0 4px 20px #17203310}
+h2{margin-top:0}
+label{display:block;font-size:14px;font-weight:bold;margin:18px 0 8px}
+input{width:100%;padding:13px;border:1px solid #d5dce7;border-radius:8px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+button{padding:13px 20px;background:#2563eb;color:white;border:0;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:20px}
+button:hover{background:#1d4ed8}
+.results{display:none;margin-top:28px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.metric{padding:18px;background:#eff6ff;border:1px solid #dbeafe;border-radius:10px}
+.metric small{color:#64748b;font-weight:bold}
+.metric h3{color:#1d4ed8;margin-bottom:0;font-size:23px;overflow-wrap:anywhere}
+.allocation{margin-top:25px}
+.platform{margin:15px 0}
+.platform-info{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:7px}
+.bar{height:10px;background:#e2e8f0;border-radius:10px;overflow:hidden}
+.fill{height:100%;background:#2563eb;border-radius:10px;width:0}
+.error{color:#dc2626;margin-top:12px}
+footer{text-align:center;color:#64748b;padding:25px;font-size:13px}
+@media(max-width:600px){
+.grid{grid-template-columns:1fr}
+.metrics{grid-template-columns:repeat(2,1fr)}
+.card{padding:19px}
+.metric h3{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Marketing Toolkit</h1>
+<p>Free tools for digital marketers</p>
+<nav>
+<a href="./index.html">UTM Builder</a>
+<a href="./roas.html">ROAS Calculator</a>
+<a href="./budget.html">Budget Planner</a>
+</nav>
+</header>
+
+<main>
+<div class="card">
+<h2>Marketing Budget Planner</h2>
+<p>Plan and distribute your advertising budget across platforms.</p>
+
+<form id="budgetForm">
+
+<div class="grid">
+<div>
+<label for="total">Total Monthly Budget (AED) *</label>
+<input id="total" type="number" min="0.01" step="any" placeholder="30000" required>
+</div>
+<div>
+<label for="days">Campaign Duration (Days) *</label>
+<input id="days" type="number" min="1" max="366" step="1" placeholder="30" required>
+</div>
+<div>
+<label for="meta">Meta Ads Budget (%)</label>
+<input id="meta" type="number" min="0" max="100" value="40" step="any">
+</div>
+<div>
+<label for="google">Google Ads Budget (%)</label>
+<input id="google" type="number" min="0" max="100" value="35" step="any">
+</div>
+<div>
+<label for="tiktok">TikTok Ads Budget (%)</label>
+<input id="tiktok" type="number" min="0" max="100" value="15" step="any">
+</div>
+<div>
+<label for="other">Other Channels (%)</label>
+<input id="other" type="number" min="0" max="100" value="10" step="any">
+</div>
+</div>
+
+<button type="submit">Calculate Budget</button>
+<button type="reset" style="background:#64748b;margin-left:6px">Reset</button>
+<p class="error" id="error" role="alert"></p>
+</form>
+
+<section class="results" id="results">
+<h2>Budget Summary</h2>
+<div class="metrics">
+<div class="metric">
+<small>Monthly Budget</small>
+<h3 id="monthly"></h3>
+</div>
+<div class="metric">
+<small>Daily Budget</small>
+<h3 id="daily"></h3>
+</div>
+<div class="metric">
+<small>Campaign Budget</small>
+<h3 id="campaign"></h3>
+</div>
+</div>
+
+<h2 style="margin-top:28px">Platform Allocation</h2>
+<div class="allocation" id="allocation"></div>
+<p id="totalPercent"></p>
+</section>
+</div>
+</main>
+
+<footer>Marketing Toolkit · Free & Open Source · MIT License</footer>
+
+<script>
+const form=document.getElementById("budgetForm");
+const results=document.getElementById("results");
+const error=document.getElementById("error");
+
+const platforms=[
+{name:"Meta Ads",id:"meta"},
+{name:"Google Ads",id:"google"},
+{name:"TikTok Ads",id:"tiktok"},
+{name:"Other Channels",id:"other"}
+];
+
+function format(value){
+return "AED "+value.toLocaleString("en-AE",{
+minimumFractionDigits:2,maximumFractionDigits:2
+});
+}
+
+form.addEventListener("submit",function(e){
+e.preventDefault();
+error.textContent="";
+
+const total=Number(document.getElementById("total").value);
+const days=Number(document.getElementById("days").value);
+
+const percentages=platforms.map(p=>
+Number(document.getElementById(p.id).value)
+);
+
+if(!Number.isFinite(total)||total<=0||
+!Number.isFinite(days)||!Number.isInteger(days)||days<1||days>366||
+percentages.some(v=>!Number.isFinite(v)||v<0||v>100)){
+error.textContent="Please enter valid positive budget and duration values, and percentages from 0 to 100.";
+return;
+}
+
+const sum=percentages.reduce((a,b)=>a+b,0);
+
+if(Math.abs(sum-100)>0.000001){
+error.textContent="Platform allocations must total exactly 100%. Current total: "+sum.toFixed(2)+"%.";
+results.style.display="none";
+return;
+}
+
+document.getElementById("monthly").textContent=format(total);
+document.getElementById("daily").textContent=format(total/days);
+document.getElementById("campaign").textContent=format(total);
+
+const allocation=document.getElementById("allocation");
+allocation.innerHTML="";
+
+platforms.forEach((p,i)=>{
+const amount=total*percentages[i]/100;
+
+const item=document.createElement("div");
+item.className="platform";
+
+const info=document.createElement("div");
+info.className="platform-info";
+
+const name=document.createElement("strong");
+name.textContent=p.name;
+
+const value=document.createElement("span");
+value.textContent=percentages[i].toFixed(2)+"% · "+format(amount);
+
+info.append(name,value);
+
+const bar=document.createElement("div");
+bar.className="bar";
+
+const fill=document.createElement("div");
+fill.className="fill";
+fill.style.width=percentages[i]+"%";
+
+bar.append(fill);
+item.append(info,bar);
+allocation.append(item);
+});
+
+document.getElementById("totalPercent").textContent=
+"Total allocation: "+sum.toFixed(2)+"%";
+
+results.style.display="block";
+});
+
+form.addEventListener("reset",()=>{
+results.style.display="none";
+error.textContent="";
+});
+</script>
+</body>
+</html>
