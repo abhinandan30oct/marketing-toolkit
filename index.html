@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free marketing tools for digital marketers. Build UTM links, calculate ROAS and plan advertising budgets.">
+<title>Marketing Toolkit | Free Digital Marketing Tools</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f9fc;
+  color: #17243b;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1160px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid #e8edf4;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav {
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: 800;
+  color: #17243b;
+  text-decoration: none;
+}
+
+.logo span { color: #2563eb; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
+
+.nav-links a {
+  color: #526078;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-links a:hover { color: #2563eb; }
+
+.nav-button {
+  background: #2563eb;
+  color: white !important;
+  padding: 10px 17px;
+  border-radius: 8px;
+}
+
+.hero {
+  background: linear-gradient(135deg, #14213d, #1d3b70);
+  color: white;
+  padding: 90px 20px 85px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: #bfdbfe;
+  background: #ffffff18;
+  border: 1px solid #ffffff25;
+  border-radius: 30px;
+  padding: 7px 15px;
+  font-size: 13px;
+  margin-bottom: 23px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 58px);
+  line-height: 1.12;
+  max-width: 800px;
+  margin: auto;
+  letter-spacing: -1.5px;
+}
+
+.hero h1 span { color: #93c5fd; }
+
+.hero p {
+  max-width: 650px;
+  margin: 22px auto 30px;
+  color: #d6e1f1;
+  font-size: 17px;
+}
+
+.primary-button {
+  display: inline-block;
+  padding: 14px 24px;
+  background: #ffffff;
+  color: #17315b;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.primary-button:hover { background: #dbeafe; }
+
+.section {
+  padding: 75px 0;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 38px;
+}
+
+.section-heading h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.section-heading p {
+  color: #64748b;
+  font-size: 15px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.tool-card {
+  background: white;
+  padding: 28px;
+  border: 1px solid #e6ebf2;
+  border-radius: 15px;
+  transition: 0.2s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px #17243b12;
+  border-color: #bfdbfe;
+}
+
+.tool-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 25px;
+  border-radius: 12px;
+  margin-bottom: 21px;
+}
+
+.tool-card h3 {
+  font-size: 20px;
+  margin-bottom: 11px;
+}
+
+.tool-card p {
+  color: #64748b;
+  font-size: 14px;
+  min-height: 68px;
+}
+
+.tool-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.tool-link:hover { text-decoration: underline; }
+
+.benefits {
+  background: white;
+}
+
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  text-align: center;
+}
+
+.benefit {
+  padding: 20px;
+}
+
+.benefit-icon {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+
+.benefit h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.benefit p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.about {
+  text-align: center;
+  max-width: 760px;
+  margin: auto;
+}
+
+.about h2 {
+  font-size: 30px;
+  margin-bottom: 15px;
+}
+
+.about p { color: #64748b; }
+
+.github-link {
+  display: inline-block;
+  margin-top: 23px;
+  padding: 12px 21px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #17243b;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+footer {
+  background: #14213d;
+  color: #d1d9e6;
+  padding: 35px 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+footer a {
+  color: #bfdbfe;
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+footer p { font-size: 13px; }
+
+@media(max-width: 800px) {
+  .tools-grid { grid-template-columns: 1fr 1fr; }
+  .benefit-grid { grid-template-columns: 1fr; gap: 10px; }
+  .nav-links { gap: 13px; }
+}
+
+@media(max-width: 560px) {
+  .nav {
+    flex-direction: column;
+    padding: 15px 0;
+  }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tools-grid { grid-template-columns: 1fr; }
+  .hero { padding: 65px 18px; }
+  .hero p { font-size: 15px; }
+  .section { padding: 55px 0; }
+  .section-heading h2 { font-size: 27px; }
+  .footer-content { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="./index.html">
+      Marketing<span>Toolkit</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="#tools">Our Tools</a>
+      <a href="#about">About</a>
+      <a class="nav-button" href="#tools">Explore Tools</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">FREE TOOLS FOR DIGITAL MARKETERS</div>
+
+    <h1>
+      Smarter Marketing.<br>
+      <span>Better Decisions.</span>
+    </h1>
+
+    <p>
+      Plan campaigns, measure advertising performance
+      and manage your marketing budgets with simple,
+      powerful and free marketing tools.
+    </p>
+
+    <a class="primary-button" href="#tools">
+      Explore Free Tools →
+    </a>
+  </div>
+</section>
+
+<section class="section" id="tools">
+  <div class="container">
+
+    <div class="section-heading">
+      <h2>Explore Our Marketing Tools</h2>
+      <p>Everything you need to make better marketing decisions.</p>
+    </div>
+
+    <div class="tools-grid">
+
+      <article class="tool-card">
+        <div class="tool-icon">🔗</div>
+        <h3>UTM Campaign Builder</h3>
+        <p>
+          Create tracking URLs for Google, Meta, Instagram
+          and other marketing campaigns. Organize your
+          campaign tracking easily.
+        </p>
+        <a class="tool-link" href="./utm.html">
+          Open UTM Builder →
+        </a>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-icon">📊</div>
+        <h3>ROAS Calculator</h3>
+        <p>
+          Calculate ROAS, ROI, CPA, CPC, CPM and CTR.
+          Understand your advertising performance
+          with instant results.
+        </p>
+        <a class="tool-link" href="./roas.html">
+          Open ROAS Calculator →
+        </a>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-icon">💰</div>
+        <h3>Marketing Budget Planner</h3>
+        <p>
+          Distribute your advertising budget across
+          Meta, Google, TikTok and other channels.
+          Plan daily and monthly spending.
+        </p>
+        <a class="tool-link" href="./budget.html">
+          Open Budget Planner →
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section benefits">
+  <div class="container">
+
+    <div class="section-heading">
+      <h2>Why Marketing Toolkit?</h2>
+      <p>Simple tools designed to make everyday marketing easier.</p>
+    </div>
+
+    <div class="benefit-grid">
+
+      <div class="benefit">
+        <div class="benefit-icon">⚡</div>
+        <h3>Fast & Easy</h3>
+        <p>Get useful marketing calculations and tracking links in seconds.</p>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-icon">💎</div>
+        <h3>Completely Free</h3>
+        <p>Access our current tools without subscription fees.</p>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-icon">📱</div>
+        <h3>Mobile Friendly</h3>
+        <p>Use your marketing tools on desktop, tablet or mobile.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="container">
+    <div class="about">
+      <h2>About Marketing Toolkit</h2>
+      <p>
+        Marketing Toolkit is an open-source collection of
+        practical tools for digital marketers, freelancers
+        and agencies. Our goal is to simplify campaign
+        tracking, performance calculations and budget planning.
+      </p>
+
+      <a class="github-link"
+         href="https://github.com/abhinandan30oct/marketing-toolkit"
+         target="_blank" rel="noopener noreferrer">
+        ⭐ Explore on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-content">
+    <div>
+      <strong>Marketing Toolkit</strong>
+      <p>Free tools for digital marketers.</p>
+      <p>© 2026 Marketing Toolkit. Open source under MIT License.</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="./utm.html">UTM Builder</a>
+      <a href="./roas.html">ROAS Calculator</a>
+      <a href="./budget.html">Budget Planner</a>
+      <a href="https://github.com/abhinandan30oct/marketing-toolkit"
+         target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
