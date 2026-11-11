@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROAS Calculator | Marketing Toolkit</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #182230;
+}
+
+header {
+  background: #14213d;
+  color: white;
+  padding: 22px 8%;
+}
+
+header h1 { margin: 0; font-size: 25px; }
+header p { color: #cbd5e1; margin-bottom: 0; }
+
+nav {
+  margin-top: 14px;
+}
+
+nav a {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+main {
+  max-width: 1000px;
+  margin: 35px auto;
+  padding: 0 18px;
+}
+
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px #17203310;
+}
+
+h2 { margin-top: 0; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d5dce7;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+button {
+  padding: 13px 20px;
+  background: #2563eb;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+button:hover { background: #1d4ed8; }
+
+.reset {
+  background: #64748b;
+  margin-left: 8px;
+}
+
+.results {
+  display: none;
+  margin-top: 30px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.metric {
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.metric small {
+  color: #64748b;
+  font-weight: bold;
+}
+
+.metric h3 {
+  margin: 10px 0 0;
+  font-size: 25px;
+  color: #1d4ed8;
+  overflow-wrap: anywhere;
+}
+
+.summary {
+  margin-top: 20px;
+  background: #f0fdf4;
+  padding: 18px;
+  border-radius: 10px;
+  color: #166534;
+}
+
+.error {
+  color: #dc2626;
+  margin-top: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media(max-width: 650px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: repeat(2, 1fr); }
+  .metric h3 { font-size: 20px; }
+  .card { padding: 20px; }
+}
+
+@media(max-width: 380px) {
+  .metric-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Marketing Toolkit</h1>
+  <p>Free tools for digital marketers</p>
+  <nav>
+    <a href="./index.html">UTM Builder</a>
+    <a href="./roas.html">ROAS Calculator</a>
+  </nav>
+</header>
+
+<main>
+<div class="card">
+
+  <h2>ROAS & Marketing Performance Calculator</h2>
+  <p>Calculate your advertising performance instantly.</p>
+
+  <form id="calculator">
+
+    <div class="form-grid">
+
+      <div>
+        <label for="spend">Ad Spend (AED) *</label>
+        <input id="spend" type="number"
+          min="0.01" step="any"
+          placeholder="5000" required>
+      </div>
+
+      <div>
+        <label for="revenue">Revenue (AED) *</label>
+        <input id="revenue" type="number"
+          min="0" step="any"
+          placeholder="20000" required>
+      </div>
+
+      <div>
+        <label for="conversions">Conversions</label>
+        <input id="conversions" type="number"
+          min="0" step="1"
+          placeholder="100">
+      </div>
+
+      <div>
+        <label for="clicks">Clicks</label>
+        <input id="clicks" type="number"
+          min="0" step="1"
+          placeholder="10000">
+      </div>
+
+      <div>
+        <label for="impressions">Impressions</label>
+        <input id="impressions" type="number"
+          min="0" step="1"
+          placeholder="500000">
+      </div>
+
+    </div>
+
+    <button type="submit">Calculate Performance</button>
+    <button type="reset" class="reset">Reset</button>
+
+    <p class="error" id="error" role="alert"></p>
+
+  </form>
+
+  <section class="results" id="results" aria-live="polite">
+
+    <h2>Campaign Performance Results</h2>
+
+    <div class="metric-grid">
+
+      <div class="metric">
+        <small>ROAS</small>
+        <h3 id="roas">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>ROI</small>
+        <h3 id="roi">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>Net Return*</small>
+        <h3 id="net">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>CPA</small>
+        <h3 id="cpa">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>CPC</small>
+        <h3 id="cpc">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>CPM</small>
+        <h3 id="cpm">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>CTR</small>
+        <h3 id="ctr">-</h3>
+      </div>
+
+      <div class="metric">
+        <small>Conversions</small>
+        <h3 id="conversionResult">-</h3>
+      </div>
+
+    </div>
+
+    <div class="summary" id="summary"></div>
+
+    <p style="font-size:12px;color:#64748b;">
+      *Net return and ROI subtract advertising spend only,
+      not other business costs. This is not accounting profit.
+      Metrics with zero or missing denominators are shown as N/A.
+    </p>
+
+  </section>
+
+</div>
+</main>
+
+<footer>
+  Marketing Toolkit · Free & Open Source · MIT License
+</footer>
+
+<script>
+const form = document.getElementById("calculator");
+const results = document.getElementById("results");
+const error = document.getElementById("error");
+
+const getValue = id => {
+  const value = document.getElementById(id).value.trim();
+  return value === "" ? 0 : Number(value);
+};
+
+const money = value => {
+  return "AED " + value.toLocaleString("en-AE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+};
+
+const metric = (id, value) => {
+  document.getElementById(id).textContent = value;
+};
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  error.textContent = "";
+
+  const spend = getValue("spend");
+  const revenue = getValue("revenue");
+  const conversions = getValue("conversions");
+  const clicks = getValue("clicks");
+  const impressions = getValue("impressions");
+
+  const values = [spend, revenue, conversions, clicks, impressions];
+
+  if (values.some(value => !Number.isFinite(value) || value < 0)) {
+    error.textContent = "Please enter valid non-negative numbers.";
+    return;
+  }
+
+  if (spend <= 0) {
+    error.textContent = "Ad spend must be greater than zero.";
+    return;
+  }
+
+  if ([conversions, clicks, impressions].some(
+    value => !Number.isInteger(value)
+  )) {
+    error.textContent =
+      "Conversions, clicks and impressions must be whole numbers.";
+    return;
+  }
+
+  if (clicks > impressions && impressions > 0) {
+    error.textContent = "Clicks cannot exceed impressions.";
+    return;
+  }
+
+  const roas = revenue / spend;
+  const roi = ((revenue - spend) / spend) * 100;
+  const net = revenue - spend;
+
+  metric("roas", roas.toFixed(2) + "x");
+  metric("roi", roi.toFixed(2) + "%");
+  metric("net", money(net));
+
+  metric("cpa", conversions > 0
+    ? money(spend / conversions) : "N/A");
+
+  metric("cpc", clicks > 0
+    ? money(spend / clicks) : "N/A");
+
+  metric("cpm", impressions > 0
+    ? money(spend / impressions * 1000) : "N/A");
+
+  metric("ctr", impressions > 0
+    ? (clicks / impressions * 100).toFixed(2) + "%"
+    : "N/A");
+
+  metric("conversionResult",
+    conversions.toLocaleString("en-AE"));
+
+  const summary = roas >= 1
+    ? "Revenue is equal to or greater than advertising spend."
+    : "Revenue is currently below advertising spend.";
+
+  document.getElementById("summary").textContent = summary;
+
+  results.style.display = "block";
+});
+
+form.addEventListener("reset", function() {
+  results.style.display = "none";
+  error.textContent = "";
+});
+</script>
+
+</body>
+</html>
