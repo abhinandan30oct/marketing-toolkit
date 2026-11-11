@@ -356,7 +356,7 @@ form.addEventListener("submit", function(event) {
     ? money(spend / impressions * 1000) : "N/A");
 
   metric("ctr", impressions > 0
-    ? (clicks / impressions * 100).toFixed(2) + "%"
+    ? (clicks / impressions * 100).toFixed(4) + "%"
     : "N/A");
 
   metric("conversionResult",
